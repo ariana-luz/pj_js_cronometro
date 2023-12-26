@@ -14,8 +14,23 @@ const playPause = () => {//pregunta si esta pausado o no, si tiene la clase clas
         playPauseButton.classList.add('running'); //si está pausado le agregamos la clase para que "arranque"
         start();
     } else {//si no está pausado
+        playPauseButton.classList.remove('running');
         pause();
     }
+}
+
+const pause = () => {
+    secondSphere.style.animationPlayState = 'paused'; //cambia el estado de la animacion a pausada
+    clearInterval(stopwatchInterval); //borra el intervalo. Va a dejar el tiempo en el momento que lo hayamos frenado
+}
+
+const stop = () => {
+    secondSphere.style.transform = 'rotate(-90deg) translateX(130px)';//vuelve la esfera al inicio arriba de todo
+    secondSphere.style.animation = 'none';//saca la animación
+    playPauseButton.classList.remove('running');//le borra el 'running' para que se vuelva a poner el boton de Play y no el de Pause
+    runningTime = 0; //el running time vuelve a 0
+    clearInterval(stopwatchInterval); //frena el intervalo
+    stopwatch.textContent = '00:00'; //el texto del segundero vuelve a decir 00
 }
 
 const start = () => {
