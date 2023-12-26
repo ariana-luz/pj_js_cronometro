@@ -1,0 +1,110 @@
+main {
+    font-family: 'Roboto Mono', monospace;
+    position: relative;
+}
+
+/*
+border para que sea redondo
+centrado con los margenes
+contenido centrado
+flex direction column para que aparezcan los numeros arriba y los botones debajo
+*/
+.circle {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    border: 1 px solid #fff;
+    color: #fff;
+    margin: 50px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/*seudo elemento: before
+content vacio es el fondo negro que contiene el cronometro
+z-index -1 para que siempre aparezca por debajo del circulo (fondo)
+position absolute para que este centrado en el mismo lugar que el cronometro
+con un poco mas de ancho que el circulo
+left y top para ponerlo en el medio y restarle la mitad de su ancho, para dejarlo justo en el centro
+*/
+.circle::before {
+    content: '';
+    border-radius: 50%;
+    z-index: -1;
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    left: calc(50% - 80px);
+    top: calc(50% - 80px);
+    background-color: #1d1d1d;
+}
+
+/*
+mismo truco para que quede en el medio
+animacion de rotacion, va a tardar 60 segundos va a ser infinita hacia adelante, va a hacer un rotate y un translate
+*/
+
+.seconds-sphere {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    left: calc(50% - 10px);
+    top: calc(50% - 10px);
+    animation: rotacion 60s linear infinite;
+    animation-play-state: paused; /*va a estar pausada hasta que la activemos*/
+}
+
+/*
+transform: genera un movimiento de traslación alrededor del punto fijo donde esta el elemento
+translate: mueve visualmente 60px el elemento hacia el eje de la X
+se agrega aparte de la clase porque es un solo translate
+*/
+@keyframes rotacion {
+    from {
+        transform: rotate(-90deg) translateX(60px);
+    }
+
+    to {
+        transform: rotate(270deg) translateX(60px);
+    }
+}
+
+.buttons {
+    margin-top: 10px;
+    display: inline-flex; /* para que se vean uno al lado del otro */
+}
+
+/* cuando esta pausada tendrá estos estilos 
+la forma del triangulo se da con el border-width a cada uno de los lados
+color transparent a los tres primeros y blanco al último
+will-change y transition para que cuando presione el boton cambien los estilos como una animacion*/
+
+.paused {
+    height: 10px;
+    border-width: 5px 0 5px 10px;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-left: 15px;
+    border-color: transparent transparent transparent #fff;
+    transition:  100ms all ease;
+    will-change: border-width;
+    border-style: solid;
+}
+
+/* el boton de pausa cuando sea presionado va a tener esta clase*/
+.running {
+    border-style: double;
+    border-width: 0 0 0 10px;
+}
+
+/* es un cuadrado */
+.stop {
+    background-color: #fff;
+    height: 10px;
+    width: 10px;
+    cursor: pointer;
+}
